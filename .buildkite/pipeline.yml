@@ -1,7 +1,9 @@
 steps:
-  - label: ":rspec: RSpec"
+  - label: ":rspec: RSpec && :spider: muffet"
     depends_on: linting
-    command: bundle exec rspec
+    command:
+      - "docker run raviqqe/muffet -v http://localhost:3000 --max-connections=10 --include=/docs/ --exclude=https://github.com/buildkite/docs/ --color=always"
+        #- "bundle exec rspec --profile"
     artifact_paths: "log/rspec-*.xml"
     key: "rspec"
     env:
